@@ -1,0 +1,18 @@
+Package: meteoR
+Type: Package
+Title: Wrapper to the UK Met Office's weather forecasts API
+Version: 0.1.0
+Author: Neil Charles
+Maintainer: <neil.d.charles@gmail.com>
+Description: Requests xml responses from the Met Office API and returns formatted data 
+License: GPL v3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+Imports:
+    dplyr,
+    purrr,
+    readr,
+    tidyr,
+    rvest,
+    magrittr
