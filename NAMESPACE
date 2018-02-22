@@ -3,3 +3,4 @@
 export(forecast_get_site)
 export(forecast_list_sites)
 export(set_api_key)
+importFrom(magrittr,"%>%")
