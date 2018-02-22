@@ -11,10 +11,10 @@ devtools::install_github("neilcharles/meteoR")
 
 You will need a valid Met Office API Key. Register [here](https://register.metoffice.gov.uk/WaveRegistrationClient/public/register.do?service=datapoint).
 
-Register your api key and meteoR will save it in the current working directory.
+Use save_api_key() to store your api key in the current working directory. Calls for data will use the API stored in this file.
 
 ```r
-set_api_key(YOUR KEY)
+save_api_key(YOUR KEY)
 ```
 
 Request the list of available forecast locations.
