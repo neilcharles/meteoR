@@ -16,7 +16,7 @@ forecast_get_site <- function(site_id){
     read_api_key()
   ))
 
-  df <- tibble::tibble(xml = rvest::xml_nodes(xml_data, "Period")) %>%
+  weather <- tibble::tibble(xml = rvest::xml_nodes(xml_data, "Period")) %>%
     dplyr::mutate(date = as.Date(as.character(purrr::map(xml, .f = ~xml2::xml_attrs(.)[2])))) %>%  #pull date
     dplyr::mutate(xml_obs = purrr::map(xml, .f = ~rvest::xml_nodes(., "Rep"))) %>% #pull obs as awkward list
     dplyr::mutate(clock_mins = purrr::map(xml_obs, .f = ~xml2::xml_text(xml2::xml_contents(.)))) %>% #get obs clock
@@ -26,8 +26,13 @@ forecast_get_site <- function(site_id){
     tidyr::unnest() %>%
     dplyr::select(date, clock_mins, dplyr::everything())
 
-  names(df) <- fact_names()[names(df)]
+  names(weather) <- fact_names()[names(weather)]
 
-  df
+  suppressWarnings({
+    weather <- weather %>%
+    dplyr::mutate_at(dplyr::vars(dplyr::one_of(numeric_fact_names())), as.numeric)
+  })
+
+  weather
 
 }

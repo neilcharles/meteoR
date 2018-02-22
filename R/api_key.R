@@ -5,8 +5,8 @@
 #' @param api_key a valid met office api key
 #' @export
 #' @examples
-#' set_api_key(your valid key)
-set_api_key <- function(api_key) {
+#' save_api_key(your valid key)
+save_api_key <- function(api_key) {
   readr::write_rds(api_key, "api_key")
 }
 

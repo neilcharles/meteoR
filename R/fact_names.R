@@ -17,3 +17,18 @@ fact_names <- function() {
     W = "weather_type"
   )
 }
+
+numeric_fact_names <- function() {
+  c(
+    clock_mins = "clock_mins",
+    G = "wind_gust_mph",
+    H = "humidity_pct",
+    P = "pressure_hpa",
+    Dp = "dew_pont_c",
+    S = "wind_speed_mph",
+    T = "temp_c",
+    F = "feels_like_temp_c",
+    Pp = "precipitation_prob",
+    U = "max_uv_index"
+  )
+}
