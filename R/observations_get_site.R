@@ -1,17 +1,17 @@
-#' Retrieve the 5 day weather forecast for a site
+#' Retrieve hourly site observations for the past 24 hours
 #'
-#' Requests three-hourly forecast from the met office API in xml format and returns a \code{tibble}
-#' @param site_id a valid met office site id. Use \code{forecast_list_sites()} to get ID numbers.
+#' Requests observations from the met office API in xml format and returns a \code{tibble}
+#' @param site_id a valid met office observations site id. Use \code{observations_list_sites()} to get ID numbers.
 #' @export
 #' @examples
-#' forecast_get_site(3840)
+#' observations_get_site(3840)
 #' @importFrom magrittr %>%
-forecast_get_site <- function(site_id){
+observations_get_site <- function(site_id){
   xml_data <- xml2::read_xml(paste0(
     api_root(),
-    "val/wxfcs/all/xml/",
+    "val/wxobs/all/xml/",
     site_id,
-    "?res=3hourly",
+    "?res=hourly",
     "&key=",
     read_api_key()
   ))

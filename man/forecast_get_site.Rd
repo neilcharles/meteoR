@@ -7,7 +7,7 @@
 forecast_get_site(site_id)
 }
 \arguments{
-\item{site_id}{a valid met office site id}
+\item{site_id}{a valid met office site id. Use \code{forecast_list_sites()} to get ID numbers.}
 }
 \description{
 Requests three-hourly forecast from the met office API in xml format and returns a \code{tibble}
