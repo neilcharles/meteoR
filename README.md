@@ -1,5 +1,5 @@
 # meteoR
-An R interface to the UK Met Office's forecasts and weather reports API
+An R interface to the UK Met Office's Datapoint forecasts and weather reports API
 
 ### Installation
 
@@ -11,7 +11,7 @@ devtools::install_github("neilcharles/meteoR")
 
 You will need a valid Met Office API Key. Register [here](https://register.metoffice.gov.uk/WaveRegistrationClient/public/register.do?service=datapoint).
 
-Use save_api_key() to store your api key in the current working directory. Calls for data will use the API stored in this file.
+Use save_api_key() to store your api key in the current working directory. Calls for data will use the credentials stored in this file.
 
 ```r
 save_api_key(YOUR KEY)
@@ -44,4 +44,12 @@ Get the past 24 hours' observations.
 site_id <- sites$id[10]
 
 weather_obs <- observations_get_site(site_id)
+```
+
+The Met Office Datapoint API uses site codes for forecast locations so meteoR includes a helper function to find the closest forecast or observation site codes for any lat long point.
+
+This command will return the closest five observation locations to central Leeds.
+
+```r
+find_closest_site(lat = 53.8059821, long = -1.6057714, observations = TRUE, site_count = 5)
 ```
