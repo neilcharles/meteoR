@@ -16,7 +16,8 @@ observations_list_sites <- function() {
   df <- tibble::tibble(xml = rvest::xml_nodes(xml_data, "Location")) %>%
     dplyr::mutate(locations = purrr::map(xml, .f = ~tibble::as.tibble(t(xml2::xml_attrs(.))))) %>%
     dplyr::select(locations) %>%
-    tidyr::unnest()
+    tidyr::unnest() %>%
+    dplyr::mutate_at(dplyr::vars(c("elevation", "latitude", "longitude")), as.numeric)
 
   df
 
