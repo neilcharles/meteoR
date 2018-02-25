@@ -17,3 +17,9 @@ read_api_key <- function(){
 api_root <- function(){
   "http://datapoint.metoffice.gov.uk/public/data/"
 }
+
+check_saved_api_key <- function(){
+  if(!file.exists("api_key")){
+    stop("No saved API key found. Before requesting data use save_api_key().")
+  }
+}

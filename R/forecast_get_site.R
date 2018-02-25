@@ -7,6 +7,9 @@
 #' forecast_get_site(3840)
 #' @importFrom magrittr %>%
 forecast_get_site <- function(site_id){
+
+  check_saved_api_key()
+
   xml_data <- xml2::read_xml(paste0(
     api_root(),
     "val/wxfcs/all/xml/",
@@ -24,14 +27,20 @@ forecast_get_site <- function(site_id){
     dplyr::mutate(obs = purrr::map2(obs, clock_mins, .f = ~add_clock(.x, .y))) %>%
     dplyr::select(date, obs) %>%
     tidyr::unnest() %>%
-    dplyr::select(date, clock_mins, dplyr::everything())
+    dplyr::mutate(clock_hour = as.numeric(clock_mins) / 60) %>%
+    dplyr::select(date, clock_mins, clock_hour, dplyr::everything())
 
+  #convert abbreviations to friendly names. NOTE ALL COLUMN NAMES MUST BE IN fact_names()!!
   names(weather) <- fact_names()[names(weather)]
 
+  #set numeric column types
   suppressWarnings({
     weather <- weather %>%
     dplyr::mutate_at(dplyr::vars(dplyr::one_of(numeric_fact_names())), as.numeric)
   })
+
+  #Add descriptive columns
+  weather <- add_weather_descriptions(weather)
 
   weather
 
