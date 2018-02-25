@@ -6,6 +6,9 @@
 #' observations_list_sites()
 #' @importFrom magrittr %>%
 observations_list_sites <- function() {
+
+  check_saved_api_key()
+
   xml_data <- xml2::read_xml(paste0(
     api_root(),
     "val/wxobs/all/datatype/sitelist?res=daily",
@@ -13,12 +16,12 @@ observations_list_sites <- function() {
     read_api_key()
   ))
 
-  df <- tibble::tibble(xml = rvest::xml_nodes(xml_data, "Location")) %>%
+  sites <- tibble::tibble(xml = rvest::xml_nodes(xml_data, "Location")) %>%
     dplyr::mutate(locations = purrr::map(xml, .f = ~tibble::as.tibble(t(xml2::xml_attrs(.))))) %>%
     dplyr::select(locations) %>%
     tidyr::unnest() %>%
     dplyr::mutate_at(dplyr::vars(c("elevation", "latitude", "longitude")), as.numeric)
 
-  df
+  sites
 
 }
