@@ -1,4 +1,4 @@
-weather_type,Description
+weather_type,weather_type_description
 0,Clear night
 1,Sunny day
 2,Partly cloudy (night)
