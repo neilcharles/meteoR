@@ -4,7 +4,8 @@
 \alias{find_closest_site}
 \title{Find the closest forecast or observations site to an arbitrary lat long point.}
 \usage{
-find_closest_site(lat, long, observations = FALSE, site_count = 1)
+find_closest_site(lat, long, observations = FALSE, site_count = 1,
+  cached_sites = NULL)
 }
 \arguments{
 \item{lat}{Decimal latitude}
@@ -14,6 +15,8 @@ find_closest_site(lat, long, observations = FALSE, site_count = 1)
 \item{observations}{\code{Boolean}. \code{FALSE} (default) returns a forecast location. \code{TRUE} returns a past 24 hour observations location.}
 
 \item{site_count}{Number of sites to return. Defaults to 1 but may be increased if data from the closest site presents problems.}
+
+\item{cached_sites}{Optionally pass output from a \code{forecast_list_sites()} call or \code{observations_list_sites()} to the function. If not included, a site list will be requested from the api.}
 }
 \description{
 Calls either \code{forecast_list_sites()} or \code{observations_list_sites()} and returns the closest site to any lat long point.
