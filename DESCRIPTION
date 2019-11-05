@@ -8,7 +8,7 @@ Description: Requests xml responses from the Met Office API and returns formatte
 License: GPL v3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Imports:
     dplyr,
     purrr,
