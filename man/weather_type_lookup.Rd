@@ -4,7 +4,7 @@
 \name{weather_type_lookup}
 \alias{weather_type_lookup}
 \title{Weather type lookup}
-\format{An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 31 rows and 2 columns.}
+\format{data frame}
 \usage{
 data(weather_type_lookup)
 }
