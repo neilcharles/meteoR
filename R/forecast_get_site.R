@@ -26,7 +26,7 @@ forecast_get_site <- function(site_id){
     dplyr::mutate(obs = purrr::map(xml_obs, .f = ~dplyr::bind_rows(purrr::map(xml2::xml_attrs(.), .f = ~tibble::as.tibble(t((.))))))) %>%  #reformat obs as nested tibbles
     dplyr::mutate(obs = purrr::map2(obs, clock_mins, .f = ~add_clock(.x, .y))) %>%
     dplyr::select(date, obs) %>%
-    tidyr::unnest() %>%
+    tidyr::unnest(cols = c(obs)) %>%
     dplyr::mutate(clock_hour = as.numeric(clock_mins) / 60) %>%
     dplyr::select(date, clock_mins, clock_hour, dplyr::everything())
 
