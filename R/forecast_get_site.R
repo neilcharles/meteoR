@@ -19,15 +19,19 @@ forecast_get_site <- function(site_id){
     read_api_key()
   ))
 
-  weather <- tibble::tibble(xml = rvest::xml_nodes(xml_data, "Period")) %>%
-    dplyr::mutate(date = as.Date(as.character(purrr::map(xml, .f = ~xml2::xml_attrs(.)[2])))) %>%  #pull date
-    dplyr::mutate(xml_obs = purrr::map(xml, .f = ~rvest::xml_nodes(., "Rep"))) %>% #pull obs as awkward list
-    dplyr::mutate(clock_mins = purrr::map(xml_obs, .f = ~xml2::xml_text(xml2::xml_contents(.)))) %>% #get obs clock
-    dplyr::mutate(obs = purrr::map(xml_obs, .f = ~dplyr::bind_rows(purrr::map(xml2::xml_attrs(.), .f = ~tibble::as.tibble(t((.))))))) %>%  #reformat obs as nested tibbles
-    dplyr::mutate(obs = purrr::map2(obs, clock_mins, .f = ~add_clock(.x, .y))) %>%
-    dplyr::select(date, obs) %>%
-    tidyr::unnest(cols = c(obs)) %>%
-    dplyr::mutate(clock_hour = as.numeric(clock_mins) / 60) %>%
+  weather <- purrr::map_df(xml_nodes, function(x) {
+    
+    kids <- xml2::xml_children(x)
+    
+    kids_data <- purrr::map_df(kids,function(y){
+      as.data.frame(t(xml2::xml_attrs(y)))
+    }) %>% 
+      dplyr::mutate(clock_mins = xml2::xml_text(kids)) %>% 
+      dplyr::mutate(clock_hour = as.numeric(clock_mins)/60) %>% 
+      dplyr::mutate(date = as.Date(xml2::xml_attrs(x)[2],"%Y-%m-%dZ"))
+    
+    return(kids_data)
+  }) %>% 
     dplyr::select(date, clock_mins, clock_hour, dplyr::everything())
 
   #convert abbreviations to friendly names. NOTE ALL COLUMN NAMES MUST BE IN fact_names()!!
