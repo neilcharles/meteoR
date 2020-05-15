@@ -19,6 +19,8 @@ forecast_get_site <- function(site_id){
     read_api_key()
   ))
 
+  xml_nodes <- rvest::xml_nodes(xml_data, "Period")
+  
   weather <- purrr::map_df(xml_nodes, function(x) {
     
     kids <- xml2::xml_children(x)
